@@ -1,0 +1,39 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+  background: #333333;
+}
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.board {
+  width: 800px;
+  height: 800px;
+
+  display: flex;
+  flex-wrap: wrap-reverse;
+  flex-direction: row;
+}
+
+.square {
+  background: #fff;
+  height: 80px;
+  width: 80px;
+  font-size: 10px;
+  color: #ccc;
+  padding: 10px;
+}
+
+.square.white {
+  background: #dfe6e9;
+}
+
+.square.black {
+  background: #b2bec3;
+}
+
+.piece {
+  width: 40px;
+}
