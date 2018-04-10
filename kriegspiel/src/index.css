@@ -24,6 +24,8 @@ body {
   font-size: 10px;
   color: #ccc;
   padding: 10px;
+  position: relative;
+  text-align: center;
 }
 
 .square.white {
@@ -34,6 +36,17 @@ body {
   background: #b2bec3;
 }
 
+.square .identifier {
+  position: absolute;
+  top: 5;
+  left: 5;
+}
+
 .piece {
-  width: 40px;
+  width: 25px;
+  margin-top: 10px;
+}
+
+.piece.active {
+  border: 1px solid #ff0000;
 }
