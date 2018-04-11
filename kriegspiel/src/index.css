@@ -50,3 +50,21 @@ body {
 .piece.active {
   border: 1px solid #ff0000;
 }
+
+.threatIndicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+}
+
+.threatIndicator.white {
+  background: #778beb;
+  left: 40px;
+}
+
+.threatIndicator.black {
+  background: #3dc1d3;
+  left: 20px;
+}

@@ -12,12 +12,12 @@ class Piece extends React.Component {
   }
 
   render() {
-    if (this.props.team === "black" && this.props.type === "rook") {
+    if (this.props.type === "rook") {
       return (
         <div onClick={() => this.setState({ isActive: !this.state.isActive })}>
           <img
             className={"piece " + (this.state.isActive ? "active" : "")}
-            src="rook-black.png"
+            src={`rook-${this.props.team}.png`}
           />
         </div>
       );
@@ -33,12 +33,57 @@ Piece.propTypes = {
 };
 
 class Square extends React.Component {
+  getThreatSquares(piece) {
+    // returns array of [x,y] coordinates
+
+    let pieceX = piece.props.positionX;
+    let pieceY = piece.props.positionY;
+
+    if (piece.props.type === "rook") {
+      return [
+        [pieceX, pieceY + 1],
+        [pieceX, pieceY - 1],
+        [pieceX + 1, pieceY],
+        [pieceX - 1, pieceY]
+      ];
+    }
+
+    return [];
+  }
+
+  getThreatColors() {
+    let shouldShowBlackThreat = false;
+    let shouldShowWhiteThreat = false;
+
+    for (var i = 0; i < this.props.pieces.length; i++) {
+      let piece = this.props.pieces[i];
+      let threatSquares = this.getThreatSquares(piece);
+
+      console.log(threatSquares);
+
+      for (var k = 0; k < threatSquares.length; k++) {
+        let threatSquare = threatSquares[k];
+
+        if (
+          this.props.x === threatSquare[0] &&
+          this.props.y === threatSquare[1]
+        ) {
+          if (piece.props.team === "black") {
+            shouldShowBlackThreat = true;
+          } else if (piece.props.team === "white") {
+            shouldShowWhiteThreat = true;
+          }
+        }
+      }
+    }
+
+    return [shouldShowBlackThreat, shouldShowWhiteThreat];
+  }
+
   getMyPiece() {
     let myPiece = null;
 
-    var arrayLength = this.props.pieces.length;
-
-    for (var i = 0; i < arrayLength; i++) {
+    for (var i = 0; i < this.props.pieces.length; i++) {
       let piece = this.props.pieces[i];
 
       if (
@@ -58,6 +103,10 @@ class Square extends React.Component {
 
     var myPiece = this.getMyPiece();
 
+    let threatColors = this.getThreatColors();
+    let blackThreat = threatColors[0];
+    let whiteThreat = threatColors[1];
+
     return (
       <div
         onClick={() => this.props.onSquareClicked(this.props.x, this.props.y)}
@@ -65,6 +114,8 @@ class Square extends React.Component {
       >
         <div className="identifier">
           {this.props.x},{this.props.y}
+          {blackThreat && <div className="threatIndicator black" />}
+          {whiteThreat && <div className="threatIndicator white" />}
         </div>
         {myPiece}
       </div>
@@ -78,7 +129,7 @@ class Board extends React.Component {
     this.state = {
       pieces: [
         <Piece type="rook" team="black" positionX={3} positionY={3} />,
-        <Piece type="rook" team="black" positionX={1} positionY={1} />
+        <Piece type="rook" team="white" positionX={1} positionY={1} />
       ],
       moveStartX: null,
       moveStartY: null
